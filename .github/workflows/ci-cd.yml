@@ -1,0 +1,38 @@
+
+name: Python Addition CI Pipeline
+
+# Trigger the pipeline whenever code is pushed
+on:
+  push:
+    branches:
+      - main
+
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  addition-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Download repository code
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Step 2: Install Python
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      # Step 3: Run Python program
+      - name: Run addition program
+        run: python addition.py
+
+      # Step 4: Test addition function
+      - name: Test addition
+        run: |
+          python -c "from addition import addition; assert addition(10, 20) == 30"
+          python -c "from addition import addition; assert addition(-5, 5) == 0"
+          echo "All tests passed!"
